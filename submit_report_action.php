@@ -22,26 +22,31 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// ===================================================
 // receive data 
-$userID    = $_SESSION['userID'];
-$item_name = $_POST['item_name'];
-$category  = $_POST['category'];
-$location  = $_POST['location'];
-$date_lost = $_POST['date_lost'];
-$details   = $_POST['details'];
+// ===================================================
+$userID     = $_SESSION['userID'];
+$item_name  = $_POST['item_name'];
+$category   = $_POST['category'];
+$location   = $_POST['location'];
+$reportDate = $_POST['reportDate'];   // <input type="date" name="reportDate">
+$details    = $_POST['detail'];       // <textarea name="detail"></textarea>
 
-
+// ===================================================
 // ---------------- IMAGE UPLOAD ----------------
-$image_path = null;
-if (!empty($_FILES['item_image']['name'])) {
+// ===================================================
+$picture = null;
+if (!empty($_FILES['picture']['name'])) {
 
+    $picture = time() . "_" . basename($_FILES['picture']['name']);
 
-    $image_path = time() . "_" . basename($_FILES['item_image']['name']);
-
-    move_uploaded_file(
-        $_FILES['item_image']['tmp_name'],
-        "uploads/" . $image_path
-    );
+    // [ADDED] safety check
+    if (!move_uploaded_file(
+        $_FILES['picture']['tmp_name'],
+        "uploads/" . $picture
+    )) {
+        die("Image upload failed");
+    }
 }
 
 // ===================================================
@@ -61,16 +66,21 @@ $stmtItem->bind_param(
     $status
 );
 
-$stmtItem->execute();
+// [ADDED] check insert item
+if (!$stmtItem->execute()) {
+    die("Item insert error: " . $stmtItem->error);
+}
 
-// ดึง itemID ที่เพิ่ง insert
+// itemID that already insert
 $itemID = $stmtItem->insert_id;
 
 // ===================================================
 // 2) INSERT INTO report
 // ===================================================
+// reportType has DEFAULT 'reported'
+
 $sqlReport = "INSERT INTO report
-    (userID, itemID, location, date_lost, details, image_path)
+    (userID, itemID, reportDate, location, picture, detail)
     VALUES (?, ?, ?, ?, ?, ?)";
 
 $stmtReport = $conn->prepare($sqlReport);
@@ -78,10 +88,10 @@ $stmtReport->bind_param(
     "iissss",
     $userID,
     $itemID,
+    $reportDate,
     $location,
-    $date_lost,
-    $details,
-    $image_path
+    $picture,
+    $details
 );
 
 if ($stmtReport->execute()) {
@@ -91,3 +101,4 @@ if ($stmtReport->execute()) {
 } else {
     echo "Error: " . $stmtReport->error;
 }
+?>
