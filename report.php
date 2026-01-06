@@ -101,7 +101,7 @@ $user = $result->fetch_assoc();
 
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">When</label>
-                                    <input type="date" name="date_lost" class="form-control" required>
+                                    <input type="date" name="reportDate" class="form-control" required>
                                 </div>
 
                                 <div class="mt-4 mb-2">
@@ -143,7 +143,7 @@ $user = $result->fetch_assoc();
                                         <i class="fa-solid fa-arrow-up-from-bracket fs-1 text-secondary mb-2"></i>
                                         <div class="bg-white rounded-pill mx-auto mt-2"
                                             style="width: 100px; height: 10px;"></div>
-                                        <input type="file" name="item_image" class="d-none" accept="image/*" required>
+                                        <input type="file" name="picture" class="d-none" accept="image/*" required>
 
 
                                     </label>
@@ -151,7 +151,7 @@ $user = $result->fetch_assoc();
 
                                 <div class="mb-3 flex-grow-1 d-flex flex-column">
                                     <label class="form-label fw-bold">Details</label>
-                                    <textarea name="details" class="form-control flex-grow-1" rows="4"
+                                    <textarea name="detail" class="form-control flex-grow-1" rows="4"
                                         style="resize: none;"></textarea>
                                 </div>
 
