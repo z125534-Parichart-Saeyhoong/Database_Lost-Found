@@ -25,19 +25,19 @@ session_start();
     <div class="home-topbar">
 
         <?php if (!isset($_SESSION['userID'])): ?>
-            <a href="#" class="signin" data-bs-toggle="modal" data-bs-target="#signinModal">
-                Sign In
-            </a>
-            <a href="#" class="signup" data-bs-toggle="modal" data-bs-target="#signupModal">
-                Sign Up
-            </a>
+        <a href="#" class="signin" data-bs-toggle="modal" data-bs-target="#signinModal">
+            Sign In
+        </a>
+        <a href="#" class="signup" data-bs-toggle="modal" data-bs-target="#signupModal">
+            Sign Up
+        </a>
         <?php else: ?>
-            <span class="fw-bold">
-                👋 <?php echo htmlspecialchars($_SESSION['username']); ?>
-            </span>
-            <a href="logout.php" class="btn btn-outline-dark btn-sm">
-                Logout
-            </a>
+        <span class="fw-bold">
+            👋 <?php echo htmlspecialchars($_SESSION['username']); ?>
+        </span>
+        <a href="logout.php" class="btn btn-outline-dark btn-sm">
+            Logout
+        </a>
         <?php endif; ?>
 
     </div>
@@ -57,7 +57,7 @@ session_start();
                     <form id="signinForm" action="signin.php" method="post">
 
                         <div class="mb-3">
-                            <label class="form-label">Username</label>
+                            <label class="form-label">Username or Email</label>
                             <input type="text" name="username" class="form-control" required>
                         </div>
 
@@ -166,7 +166,7 @@ session_start();
 
         </div>
 
-        <a href="report.php" class="report-btn">
+        <a href="report.php" class="report-btn text-decoration-none">
             REPORT
         </a>
 
